@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+const saltRounds = 10       // salt가 몇자리인지 나타냄
 
 const userSchema = mongoose.Schema({
     name: {
@@ -28,6 +30,25 @@ const userSchema = mongoose.Schema({
     },
     tokenExp: {             // token 유효기간
         type: Number
+    }
+})
+
+// mongoose 메소드 pre 사용     // index.js의 register route에서 user.save하기 전에 function 실행
+userSchema.pre('save', function( next ){
+    var user = this     // userSchema 가르킴
+
+    if(user.isModified('password')){    // 비밀번호가 변환될 때만 비밀번호 암호화   // 이메일, 이름 등 기타 정보 변경때는 실행되지 않음
+        // 비밀번호 암호화 시키기
+        bcrypt.genSalt(saltRounds, function(err, salt){
+            if(err) return next(err)
+
+            bcrypt.hash(user.password, salt, function(err, hash){       // hash : 비밀번호 암호화 시킴, 시킨 것
+                if(err) return next(err)
+                user.password = hash    // 비밀번호 암호화에 성공하면 암호화된 비밀번호로 바꿔줌
+                next()      // index.js로 돌아감
+            })
+        })
+
     }
 })
 
