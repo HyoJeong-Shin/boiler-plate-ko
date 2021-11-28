@@ -2,6 +2,9 @@ const express = require('express')  // 다운 받은 express module을 가져옴
 const app = express()               // function을 이용해서 새로운 express 앱을 만듦
 const port = 5000                   // 백서버 port : 5000
 //const bodyParser = require('body-parser');
+
+const config = require('./config/key')
+
 const {User} = require('./models/User');  // User 가져옴
 
 // application/x-www-form-urlencoded 이렇게 된 데이터를 분석해서 가져올 수 있게 함
@@ -15,7 +18,7 @@ app.use(express.urlencoded({extended: true}))
 
 //mongoose 이용해서 몽고DB와 앱 연결
 const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://hyojeong:gywjddl66@boilerplate.nntfx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+mongoose.connect(config.mongoURI)
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err))
 
