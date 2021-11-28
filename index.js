@@ -24,7 +24,7 @@ mongoose.connect(config.mongoURI)
 
 app.get('/', (req, res) => { res.send('Hello World!')})    // root 디렉터리에 hello world 출력
 
-// 회원가입을 위한 route
+// 회원가입을 위한 route    // Register Route
 app.post('/register', (req, res) => {
 
     // 회원 가입할 때 필요한 정보들을 client에서 가져오면 그것들을 데이터 베이스에 넣어준다.

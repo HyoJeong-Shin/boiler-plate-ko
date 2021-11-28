@@ -49,6 +49,8 @@ userSchema.pre('save', function( next ){
             })
         })
 
+    } else {    // 비밀번호가 아닌 다른 것을 바꿀 때
+        next()
     }
 })
 
