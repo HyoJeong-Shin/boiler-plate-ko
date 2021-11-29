@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const saltRounds = 10       // salt가 몇자리인지 나타냄
+const jwt = require('jsonwebtoken');
 
 const userSchema = mongoose.Schema({
     name: {
@@ -14,7 +15,7 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        maxlength: 5
+        maxlength: 70       // 비밀번호 암호화 과정 고려해서 length 늘리기
     },
     lastname: {
         type: String,
@@ -53,6 +54,44 @@ userSchema.pre('save', function( next ){
         next()
     }
 })
+
+// comparePassword 메소드 만들기
+userSchema.methods.comparePassword = function(plainPassword, cb) {
+    // plainPassword 1234       데이터베이스에 저장되어 암호화된 비밀번호 $2b$10$/kYmZYie44A8IaTpj4US6u3VHvF0k0C1RgNRKgeGcLZxzETZ1gW4K   이 두 개가 같은지 체크
+    // 암호화된 비밀번호를 복구화할 수 없으니 plainpassword(입력된 비밀번호)를 암호화 시킨 후 DB에 있는 비밀번호와 같은지 확인
+    bcrypt.compare(plainPassword, this.password, function(err, isMatch){
+        if(err) return cb(err)
+        cb(null, isMatch)
+    })
+}
+
+userSchema.methods.generateToken = function(cb){
+
+    var user = this;
+
+    // jsonwebtoken을 이용해서 token 생성   // 첫번째 매개변수 String이어야 하는데 user._id는 string이 아니니 toHexString()을 이용해 변경
+    var token = jwt.sign(user._id.toHexString(), 'secretToken')       // uesr._id : 데이터베이스에 있는 id    // 두 가지 이용해서 토큰 만듦 : user._id + 'secretToken' =token
+
+    user.token = token
+    user.save(function(err, user){
+        if(err) return cb(err)  
+        cb(null, user)      // save 잘되면, err없고 user 정보 전달
+    })
+}
+
+userSchema.statics.findByToken = function(token, cb) {
+    var user = this
+
+    // 토큰을 decode함
+    jwt.verify(token, 'secretToken', function(err, decoded) {
+        // 유저 아이디를 이용해서 유저를 찾은 다음에 클라이언트에서 가져온 token과 DB에 보관된 토큰이 일치하는지 확인
+        user.findOne({ "_id": decoded, "token": token }, function(err, user){
+            if (err) return cb(err)
+            cb(null, user)  // err없으면 user 정보 전달
+        })
+    })
+}
+
 
 // Schema를 model로 감싸기
 const User = mongoose.model('User', userSchema)
