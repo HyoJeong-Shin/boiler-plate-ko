@@ -1,29 +1,20 @@
 import React from 'react'
 import {
   BrowserRouter as Router,
-  Routes,
+  Switch,
   Route,
   Link
 } from "react-router-dom";
+
+// 각 페이지 불러오기 (연결)
+import LandingPage from './components/views/LandingPage/LandingPage';
+import LoginPage from './components/views/LoginPage/LoginPage';
+import RegisterPage from './components/views/RegisterPage/RegisterPage';
 
 function App() {
   return (
     <Router>
       <div>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-        </ul>
-
-        <hr />
-
         {/*
           A <Switch> looks through all its children <Route>
           elements and renders the first one whose path
@@ -31,45 +22,20 @@ function App() {
           you have multiple routes, but you want only one
           of them to render at a time
         */}
-        <Routes>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-        </Routes>
+        <Switch>
+          {/* 
+            <Route path="/">
+                <LandingPage />
+            <Route>
+          // 간단하게 한 줄로 쓸 수 있음    // 해당 path에는 해당 component 연결한다는 뜻 
+          */}
+          <Route exact path="/" component={LandingPage}></Route>
+          <Route exact path="/login" component={LoginPage}></Route>
+          <Route exact path="/register" component={RegisterPage}></Route>
+        </Switch>
       </div>
     </Router>
   );
 }
 
-export default App
-
-
-function Home() {
-  return (
-    <div>
-      <h2>Home</h2>
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h2>About</h2>
-    </div>
-  );
-}
-
-function Dashboard() {
-  return (
-    <div>
-      <h2>Dashboard</h2>
-    </div>
-  );
-}
+export default App;
