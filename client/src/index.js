@@ -7,8 +7,8 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>,  // 이 부분이 화면에 보여주고 싶은 컴포넌트를 넣는 부분
+  document.getElementById('root')     // public/index.html에 있는 element를 id로 잡아, 그 element에 보여줄 것을 첫번째 매개변수(윗줄)라 정의
 );
 
 // If you want to start measuring performance in your app, pass a function
