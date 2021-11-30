@@ -26,6 +26,9 @@ mongoose.connect(config.mongoURI)
 
 app.get('/', (req, res) => { res.send('Hello World!')})    // root 디렉터리에 hello world 출력
 
+// /api/hello 요청을 받으면 'Hello World!~~' 보내줌
+app.get('/api/hello', (req, res) => res.send('Hello World!~~ '))
+
 // 회원가입을 위한 route    // Register Route
 app.post('/api/users/register', (req, res) => {
 
