@@ -28,9 +28,9 @@ function App() {
             <Route>
           // 간단하게 한 줄로 쓸 수 있음    // 해당 path에는 해당 component 연결한다는 뜻 
           */}
-          <Route exact path="/" component={LandingPage}></Route>
-          <Route exact path="/login" component={LoginPage}></Route>
-          <Route exact path="/register" component={RegisterPage}></Route>
+          <Route exact path="/" component={LandingPage}/>
+          <Route exact path="/login" component={LoginPage}/>
+          <Route exact path="/register" component={RegisterPage}/>
         </Switch>
       </div>
     </Router>
