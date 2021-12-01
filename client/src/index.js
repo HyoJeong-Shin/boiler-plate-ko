@@ -5,13 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';   // redux 연결
 import 'antd/dist/antd.css';      // css framework Ant Design style sheet
-import { applyMiddleware } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
-import { Reducer } from './_reducers';
+import Reducer from './_reducers';
 
 // 그냥 Store는 object밖에 못 받기 때문에 promise와 function도 받을 수 있게 Middleware와 함께 Store 만듦
-const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(creaetStore)
+const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
 
 
 ReactDOM.render(
