@@ -42,7 +42,7 @@ function LoginPage(props) {
     }
 
     return (
-        <div    style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'
                         , width: '100%', height: '100vh'
         }}>
             <form style={{ display:'flex', flexDirection:'column' }}
@@ -53,7 +53,7 @@ function LoginPage(props) {
                 <label>Password</label>
                 <input type="password" value={Password} onChange={onPasswordHandler}/>
                 <br/>
-                <button>
+                <button type="submit">
                     Login
                 </button>
             </form>

@@ -1,5 +1,5 @@
 import {
-    LOGIN_USER
+    LOGIN_USER, REGISTER_USER
 } from '../_actions/types';
 
 export default function (state = {}, action) {
@@ -7,6 +7,9 @@ export default function (state = {}, action) {
     switch (action.type) {
         case LOGIN_USER:
             return { ...state, loginSuccess: action.payload }   // reducer에 backend에서 가져온 정보(request)를 action.payload 써서 넣어줌
+            break;
+        case REGISTER_USER:
+            return { ...state, register: action.payload}
             break;
         default:
             return state;
